@@ -5,4 +5,7 @@ body {
         transform: translate(100px,100px);
         display: flex;
     }
+    .item:nth-child(odd){
+        color: red;
+    }
 }

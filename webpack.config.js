@@ -1,13 +1,20 @@
 
 const path = require('path');
-var {CleanWebpackPlugin} = require('clean-webpack-plugin');
+var { CleanWebpackPlugin } = require('clean-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-
+var webpack = require('webpack');
 
 module.exports = {
-    mode: 'production',
-    entry: {
-        main: './src/index.js',
+    mode: 'development',
+    devtool: 'cheap-module-eval-source-map',
+    entry: [
+        'react-hot-loader/patch',
+        './src/index'
+    ],
+    devServer: {
+        contentBase: './dist',
+        hot: true,
+        hotOnly: true,
     },
     output: {
         filename: 'bundle.js',
@@ -39,13 +46,32 @@ module.exports = {
                     loader: 'postcss-loader',
                 }
             ]
-        }]
+        }, {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                {
+                    loader: 'css-loader',
+                },
+                {
+                    loader: 'postcss-loader',
+                }
+            ]
+        },
+        {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: "babel-loader",
+
+        }
+        ]
     },
-    
+
     plugins: [
         new HtmlWebpackPlugin({
-            template:'public/index.html'
+            template: 'public/index.html'
         }),
         new CleanWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     ]
 }
