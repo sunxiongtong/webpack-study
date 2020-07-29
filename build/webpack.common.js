@@ -5,10 +5,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 
 module.exports = {
-    mode: 'development',
-    devtool: 'cheap-module-eval-source-map',
     entry: [
-        'react-hot-loader/patch',
+        // 'react-hot-loader/patch',
         './src/index'
     ],
     devServer: {
@@ -16,14 +14,10 @@ module.exports = {
         hot: true,
         hotOnly: true,
     },
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
     module: {
         rules: [{
             test: /\.(png|jpg|gif)$/,
-            use: {
+            use: { 
                 loader: 'url-loader',
                 options: {
                     name: '[name]_[hash].[ext]',
@@ -73,5 +67,10 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin()
-    ]
+    ],
+    optimization:{
+        splitChunks:{
+            chunks:'all'
+        }
+    }
 }
